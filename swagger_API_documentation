@@ -1,0 +1,102 @@
+
+swagger: '2.0'
+
+info:
+  version: "0.0.1"
+  title: Mentorship
+
+host: 127.0.0.1:8000
+schemes:
+  - http
+basePath: /mentor_app
+
+paths:
+  /get_mentee/:
+    get:
+      description: |
+        The Products endpoint returns Mentee of a person
+      produces:
+      - "application/json"
+      consumes:
+      - "application/json"
+      parameters:
+        - name: name
+          in: query
+          description: Name of Mentor
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfPersons
+            type: array
+            items:
+              title: Person
+              type: object
+              properties:
+                name:
+                  type: string
+                single:
+                  type: boolean
+                  
+            
+  /add_person/:
+    post:
+      description: add a Person
+      operationId: addPerson
+      
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      
+      parameters:
+        - name: name
+          in: body
+          description: Name of Person
+          schema:
+            $ref: '#/definitions/Person'
+        
+      responses:
+        '201':
+          description: person added
+    
+  /assign_mentor/:
+    post:
+      description: assign a mentor to mentee
+      operationId: addRelation
+      
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      
+      parameters:
+        - name: MentorMentee
+          in: body
+          description: mentor mentee
+          schema:
+            $ref: '#/definitions/MentorMentee'
+            
+      responses:
+        '201':
+          description: Relationship added
+
+definitions:
+  Person:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of Person.
+        
+  MentorMentee:
+    properties:
+      mentor:
+        type: string
+      mentee:
+        type: string 
+    required:
+      - mentor
+      - mentee
